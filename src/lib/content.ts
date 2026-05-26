@@ -14,7 +14,7 @@ export const services = [
   },
   {
     title: "Content Creation",
-    copy: "Short-form concepts, visuals, and campaign-ready assets.",
+    copy: "Short-form concepts, visuals, and campaign-ready asset direction.",
     tokenSrc: "/assets/services/content-token-transparent.png",
     tokenAlt: "3D content creation token",
   },
@@ -92,6 +92,30 @@ export const portfolioItems = [
     category: "Creative Strategy",
     metric: "Content matrix",
     imagePosition: "0% 0%",
+  },
+];
+
+export const phoneShowcaseScreens = [
+  {
+    title: "Content calendar",
+    label: "Social system",
+    src: "/assets/phone-showcase/phone-front-content.png",
+    width: 593,
+    height: 1339,
+  },
+  {
+    title: "Creative direction",
+    label: "Brand board",
+    src: "/assets/phone-showcase/phone-front-direction.png",
+    width: 622,
+    height: 1461,
+  },
+  {
+    title: "Edit queue",
+    label: "Video production",
+    src: "/assets/phone-showcase/phone-front-video.png",
+    width: 683,
+    height: 1470,
   },
 ];
 

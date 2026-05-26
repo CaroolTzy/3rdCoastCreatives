@@ -32,12 +32,13 @@ export function ScrollScene({
   children,
   className,
   id,
-}: PropsWithChildren<{ className?: string; id?: string }>) {
+  scale = true,
+}: PropsWithChildren<{ className?: string; id?: string; scale?: boolean }>) {
   return (
     <section className={`scroll-scene ${className ?? ""}`} id={id}>
       <motion.div
         className="scroll-scene-inner"
-        initial={{ opacity: 0.72, scale: 0.985 }}
+        initial={{ opacity: 0.72, scale: scale ? 0.985 : 1 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ amount: 0.36 }}
         transition={{ duration: 0.76, ease: [0.22, 1, 0.36, 1] }}

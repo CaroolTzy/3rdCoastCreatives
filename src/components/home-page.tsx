@@ -17,6 +17,7 @@ import {
   Reveal,
   ScrollScene,
 } from "./motion";
+import { PhoneShowcase } from "./phone-showcase";
 
 const proofItems = [
   {
@@ -47,7 +48,7 @@ export function HomePage() {
   return (
     <main>
       <Header />
-      <ScrollScene className="hero-section">
+      <ScrollScene className="hero-section" scale={false}>
         <Image
           className="hero-bg"
           src="/assets/hero-centered-cinematic-studio.png"
@@ -88,6 +89,8 @@ export function HomePage() {
           ))}
         </div>
       </section>
+
+      <PhoneShowcase />
 
       <ScrollScene className="section light-section services-section" id="services">
         <div className="container services-layout">
