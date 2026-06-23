@@ -7,7 +7,7 @@ import {
   useReducedMotion,
   useScroll,
 } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { PropsWithChildren } from "react";
 
 export function Reveal({
@@ -80,13 +80,28 @@ export function PinnedProcess({
 }) {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobileProcess, setIsMobileProcess] = useState(false);
   const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 680px)");
+    const syncProcessMode = () => setIsMobileProcess(mediaQuery.matches);
+
+    syncProcessMode();
+    mediaQuery.addEventListener("change", syncProcessMode);
+
+    return () => mediaQuery.removeEventListener("change", syncProcessMode);
+  }, []);
+
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (isMobileProcess) {
+      return;
+    }
+
     const nextIndex = Math.min(
       steps.length - 1,
       Math.max(0, Math.floor(latest * steps.length)),
@@ -131,10 +146,16 @@ export function PinnedProcess({
                 <button
                   className={`process-step-dot ${activeIndex === index ? "is-active" : ""}`}
                   key={step.number}
+                  onClick={() => {
+                    if (isMobileProcess && activeIndex !== index) {
+                      setActiveIndex(index);
+                    }
+                  }}
                   type="button"
+                  aria-expanded={isMobileProcess ? activeIndex === index : undefined}
                   aria-current={activeIndex === index ? "step" : undefined}
                 >
-                  <span>{step.number}</span>
+                  <span className="process-step-number">{step.number}</span>
                   {activeIndex === index ? (
                     <motion.i
                       layoutId="process-active-marker"
@@ -143,6 +164,23 @@ export function PinnedProcess({
                     />
                   ) : null}
                   <strong>{step.title}</strong>
+                  <AnimatePresence initial={false}>
+                    {activeIndex === index ? (
+                      <motion.span
+                        className="process-step-mobile-body"
+                        key={`mobile-process-body-${step.number}`}
+                        initial={{ height: 0, opacity: 0, y: -6 }}
+                        animate={{ height: "auto", opacity: 1, y: 0 }}
+                        exit={{ height: 0, opacity: 0, y: -6 }}
+                        transition={{
+                          duration: 0.28,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                      >
+                        <span>{step.body}</span>
+                      </motion.span>
+                    ) : null}
+                  </AnimatePresence>
                 </button>
               ))}
             </div>

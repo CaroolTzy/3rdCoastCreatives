@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -73,6 +73,15 @@ export function HomePage() {
   const [selectedProject, setSelectedProject] = useState(projectTypes[0]);
   const [projectOpen, setProjectOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
+  const marqueeTracksRef = useRef<Array<HTMLDivElement | null>>([]);
+  const marqueeOffsets = useRef<number[]>([]);
+  const marqueeDrag = useRef({
+    active: false,
+    pointerId: -1,
+    rowIndex: -1,
+    startX: 0,
+    startOffset: 0,
+  });
   const contactEmail = "wecreate@3rdcoastcreatives.com";
 
   const copyEmail = async () => {
@@ -82,6 +91,142 @@ export function HomePage() {
       window.setTimeout(() => setEmailCopied(false), 1600);
     } catch {
       setEmailCopied(false);
+    }
+  };
+
+  useEffect(() => {
+    let animationFrame = 0;
+    let lastTimestamp = 0;
+    const pixelsPerMs = 0.035;
+
+    const normalizeOffset = (offset: number, wrapPoint: number) => {
+      if (wrapPoint <= 0) {
+        return 0;
+      }
+
+      let nextOffset = offset;
+
+      while (nextOffset <= -wrapPoint) {
+        nextOffset += wrapPoint;
+      }
+
+      while (nextOffset > 0) {
+        nextOffset -= wrapPoint;
+      }
+
+      return nextOffset;
+    };
+
+    const tick = (timestamp: number) => {
+      if (lastTimestamp) {
+        const delta = timestamp - lastTimestamp;
+
+        marqueeTracksRef.current.forEach((track, rowIndex) => {
+          if (
+            !track ||
+            (marqueeDrag.current.active && marqueeDrag.current.rowIndex === rowIndex)
+          ) {
+            return;
+          }
+
+          const wrapPoint = track.scrollWidth / 2;
+          const direction = rowIndex % 2 === 0 ? -1 : 1;
+          const currentOffset = marqueeOffsets.current[rowIndex] ?? 0;
+          const nextOffset = normalizeOffset(
+            currentOffset + delta * pixelsPerMs * direction,
+            wrapPoint,
+          );
+
+          marqueeOffsets.current[rowIndex] = nextOffset;
+          track.style.transform = `translate3d(${nextOffset}px, 0, 0)`;
+        });
+      }
+
+      lastTimestamp = timestamp;
+      animationFrame = window.requestAnimationFrame(tick);
+    };
+
+    animationFrame = window.requestAnimationFrame(tick);
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, []);
+
+  const wrapMarqueeOffset = (rowIndex: number, offset: number) => {
+    const track = marqueeTracksRef.current[rowIndex];
+    const wrapPoint = track ? track.scrollWidth / 2 : 0;
+
+    if (wrapPoint <= 0) {
+      return 0;
+    }
+
+    let nextOffset = offset;
+
+    while (nextOffset <= -wrapPoint) {
+      nextOffset += wrapPoint;
+    }
+
+    while (nextOffset > 0) {
+      nextOffset -= wrapPoint;
+    }
+
+    return nextOffset;
+  };
+
+  const startMarqueeDrag = (
+    rowIndex: number,
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    marqueeDrag.current = {
+      active: true,
+      pointerId: event.pointerId,
+      rowIndex,
+      startX: event.clientX,
+      startOffset: marqueeOffsets.current[rowIndex] ?? 0,
+    };
+    event.currentTarget.classList.add("is-dragging");
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const moveMarqueeDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = marqueeDrag.current;
+
+    if (!drag.active || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    event.preventDefault();
+    const track = marqueeTracksRef.current[drag.rowIndex];
+    const nextOffset = wrapMarqueeOffset(
+      drag.rowIndex,
+      drag.startOffset + event.clientX - drag.startX,
+    );
+
+    marqueeOffsets.current[drag.rowIndex] = nextOffset;
+
+    if (track) {
+      track.style.transform = `translate3d(${nextOffset}px, 0, 0)`;
+    }
+  };
+
+  const stopMarqueeDrag = (
+    rowIndex: number,
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    const drag = marqueeDrag.current;
+
+    if (drag.pointerId === event.pointerId) {
+      marqueeDrag.current.active = false;
+      marqueeDrag.current.pointerId = -1;
+      marqueeDrag.current.rowIndex = -1;
+      event.currentTarget.classList.remove("is-dragging");
+
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
     }
   };
 
@@ -190,8 +335,22 @@ export function HomePage() {
           <Reveal delay={0.12}>
             <div className="partner-marquee" aria-label="Partner and client logos">
               {marqueeRows.map((row, rowIndex) => (
-                <div className="partner-marquee-row" key={`partner-row-${rowIndex}`}>
-                  <div className="partner-marquee-track">
+                <div
+                  className="partner-marquee-row"
+                  key={`partner-row-${rowIndex}`}
+                  onDragStart={(event) => event.preventDefault()}
+                  onPointerCancel={(event) => stopMarqueeDrag(rowIndex, event)}
+                  onPointerDown={(event) => startMarqueeDrag(rowIndex, event)}
+                  onLostPointerCapture={(event) => stopMarqueeDrag(rowIndex, event)}
+                  onPointerMove={moveMarqueeDrag}
+                  onPointerUp={(event) => stopMarqueeDrag(rowIndex, event)}
+                >
+                  <div
+                    className="partner-marquee-track"
+                    ref={(node) => {
+                      marqueeTracksRef.current[rowIndex] = node;
+                    }}
+                  >
                     {[...row, ...row].map((logo, logoIndex) => {
                       const isDuplicate = logoIndex >= row.length;
 
@@ -204,6 +363,7 @@ export function HomePage() {
                           <Image
                             src={logo.src}
                             alt={isDuplicate ? "" : logo.name}
+                            draggable={false}
                             width={600}
                             height={338}
                             sizes="(max-width: 680px) 220px, 280px"

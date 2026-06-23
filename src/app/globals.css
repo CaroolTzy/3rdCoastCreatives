@@ -1147,24 +1147,22 @@ h3 {
 }
 
 .partner-marquee-row {
+  width: 100%;
   overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.partner-marquee-row.is-dragging {
+  cursor: grabbing;
 }
 
 .partner-marquee-track {
   width: max-content;
   display: flex;
   gap: 14px;
-  animation: partner-marquee 38s linear infinite;
   will-change: transform;
-}
-
-.partner-marquee-row:nth-child(2) .partner-marquee-track {
-  animation-name: partner-marquee-reverse;
-  animation-duration: 42s;
-}
-
-.partner-marquee:hover .partner-marquee-track {
-  animation-play-state: paused;
 }
 
 .partner-logo-card {
@@ -1187,9 +1185,12 @@ h3 {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  pointer-events: none;
   transform: scale(1.1);
+  user-select: none;
   opacity: 1;
   filter: contrast(1.08);
+  -webkit-user-drag: none;
 }
 
 @keyframes partner-marquee {
@@ -1365,7 +1366,7 @@ h3 {
   transition: color 180ms ease, opacity 180ms ease, background 180ms ease, padding 180ms ease;
 }
 
-.process-step-dot span {
+.process-step-number {
   position: relative;
   z-index: 1;
   display: inline-grid;
@@ -1400,6 +1401,10 @@ h3 {
   text-transform: uppercase;
 }
 
+.process-step-mobile-body {
+  display: none;
+}
+
 .process-step-dot.is-active {
   color: var(--ink);
   padding-left: 18px;
@@ -1407,7 +1412,7 @@ h3 {
     linear-gradient(90deg, rgba(184, 126, 242, 0.1), rgba(255, 255, 255, 0.76) 42%, rgba(255, 255, 255, 0.28) 100%);
 }
 
-.process-step-dot.is-active span {
+.process-step-dot.is-active .process-step-number {
   border-color: rgba(109, 43, 217, 0.28);
   color: var(--white);
   background: linear-gradient(135deg, #9a9a9a, var(--brand-purple));
@@ -2347,6 +2352,12 @@ h3 {
   .partner-marquee {
     order: 1;
     gap: 10px;
+    overflow: hidden;
+    transform: none;
+  }
+
+  .partner-marquee-row {
+    overflow: hidden;
   }
 
   .portfolio-preview .split-feature {
@@ -2374,11 +2385,6 @@ h3 {
 
   .partner-marquee-track {
     gap: 10px;
-    animation-duration: 28s;
-  }
-
-  .partner-marquee-row:nth-child(2) .partner-marquee-track {
-    animation-duration: 32s;
   }
 
   .partner-logo-card {
@@ -2485,36 +2491,43 @@ h3 {
   }
 
   .phone-screen {
-    top: 7.75%;
-    height: calc(100% - 10.2%);
+    top: 6.98%;
+    height: calc(100% - 9.43%);
     border-radius: 0 0 14px 14px;
     clip-path: inset(0 0 0 0 round 0 0 14px 14px);
   }
 
   .phone-card-1 .phone-screen {
-    top: 8.25%;
-    height: calc(100% - 11.25%);
+    top: 7.36%;
+    height: calc(100% - 10.36%);
   }
 
   .phone-card-3 .phone-screen {
-    top: 7.85%;
+    top: 7.08%;
     bottom: -2.2%;
-    height: calc(100% - 5.65%);
+    height: calc(100% - 4.88%);
     border-radius: 0 0 24px 24px;
     clip-path: inset(0 0 0 0 round 0 0 24px 24px);
   }
 
   .phone-clock {
-    font-size: 7px;
+    top: 2.12%;
+    left: 13.8%;
+    height: 5.15%;
+    font-size: 6px;
+    font-weight: 700;
   }
 
   .phone-status {
-    gap: 2px;
+    top: 2.12%;
+    right: 12.2%;
+    height: 5.15%;
+    gap: 1px;
   }
 
   .phone-status svg {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
   }
 
   .phone-scroll-hint {
@@ -2547,10 +2560,11 @@ h3 {
 
   .process-rail {
     border: 1px solid rgba(7, 7, 7, 0.075);
+    border-radius: 8px;
   }
 
   .process-panel {
-    min-height: auto;
+    display: none;
   }
 
   .process-step-dot {
@@ -2558,10 +2572,15 @@ h3 {
     padding: 0 10px 0 12px;
     grid-template-columns: 36px 1fr;
     gap: 12px;
+    cursor: pointer;
   }
 
   .process-step-dot.is-active {
+    min-height: auto;
+    align-content: start;
     padding-left: 12px;
+    padding-top: 18px;
+    padding-bottom: 18px;
   }
 
   .process-step-dot i {
@@ -2569,27 +2588,63 @@ h3 {
     width: 3px;
   }
 
-  .process-step-dot span {
+  .process-step-number {
     width: 26px;
     height: 26px;
   }
 
+  .process-step-dot strong {
+    align-self: center;
+  }
+
+  .process-step-dot.is-active strong {
+    align-self: start;
+    padding-top: 4px;
+  }
+
+  .process-step-mobile-body {
+    position: relative;
+    z-index: 1;
+    display: block;
+    grid-column: 2;
+    max-width: 30rem;
+    overflow: hidden;
+    color: rgba(7, 7, 7, 0.66);
+    text-transform: none;
+  }
+
+  .process-step-mobile-body span {
+    display: block;
+    margin: 10px 0 0;
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
   .process-panel-number {
-    top: 6px;
-    right: 8px;
-    font-size: clamp(4.2rem, 21vw, 6.4rem);
+    display: none;
   }
 
   .process-panel-content {
-    --process-panel-offset: 18px;
+    --process-panel-offset: 0;
     min-height: auto;
-    padding: var(--process-panel-offset) 0 0;
+    padding: 22px 20px 24px;
+    border: 1px solid rgba(7, 7, 7, 0.075);
+    border-top: 0;
+    border-radius: 0 0 8px 8px;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.34)),
+      rgba(243, 241, 236, 0.48);
+    box-shadow:
+      0 18px 44px rgba(7, 7, 7, 0.035),
+      inset 0 1px 0 rgba(255, 255, 255, 0.36);
   }
 
   .process-panel h3 {
     max-width: min(100%, 430px);
-    margin-bottom: 14px;
-    font-size: clamp(2rem, 10vw, 2.85rem);
+    margin-bottom: 12px;
+    font-size: clamp(1.45rem, 7.5vw, 2.12rem);
+    line-height: 1.02;
   }
 
   .process-panel h3 span {
@@ -2598,8 +2653,8 @@ h3 {
 
   .process-panel p {
     max-width: 100%;
-    font-size: 0.98rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.55;
   }
 
   .footer-shell,
