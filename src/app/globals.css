@@ -2206,17 +2206,78 @@ h3 {
     padding: 74px 0;
   }
 
+  .contact-section .scroll-scene-inner {
+    padding: 68px 0 58px;
+  }
+
   .services-section .scroll-scene-inner {
     padding: 96px 0 72px;
   }
 
   .contact-form {
-    padding: 20px;
+    padding: 18px;
+    gap: 14px;
   }
 
   .contact-method-row {
-    align-items: flex-start;
+    align-items: center;
+    min-height: 58px;
     padding: 12px;
+    gap: 10px;
+    font-size: 0.9rem;
+  }
+
+  .contact-method-row span {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .contact-method-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    padding: 8px;
+  }
+
+  .copy-email-button {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .contact-copy h2 {
+    margin-inline: auto;
+    font-size: clamp(2.15rem, 10.4vw, 3.12rem);
+    text-align: center;
+  }
+
+  .contact-copy p {
+    max-width: 31rem;
+    margin-inline: auto;
+    margin-top: 14px;
+    font-size: clamp(0.98rem, 4.25vw, 1.08rem);
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  .contact-methods {
+    max-width: 100%;
+    margin-top: 24px;
+    gap: 10px;
+  }
+
+  .contact-form input,
+  .contact-form textarea,
+  .project-select-trigger {
+    padding: 12px 14px;
+  }
+
+  .project-select-trigger {
+    min-height: 48px;
+  }
+
+  .contact-form textarea {
+    min-height: 116px;
   }
 
   h1 {
@@ -2284,7 +2345,31 @@ h3 {
   }
 
   .partner-marquee {
+    order: 1;
     gap: 10px;
+  }
+
+  .portfolio-preview .split-feature {
+    text-align: center;
+    gap: 30px;
+  }
+
+  .portfolio-preview .split-feature > :first-child {
+    order: 2;
+    justify-self: center;
+  }
+
+  .portfolio-preview .split-feature > :last-child {
+    order: 1;
+  }
+
+  .portfolio-preview .split-feature h2,
+  .portfolio-preview .split-feature p {
+    margin-inline: auto;
+  }
+
+  .portfolio-preview .text-link {
+    justify-content: center;
   }
 
   .partner-marquee-track {
@@ -2338,26 +2423,31 @@ h3 {
 
   .phone-showcase-copy {
     order: 2;
+    max-width: 100%;
+    text-align: center;
   }
 
   .phone-showcase-copy h2 {
+    margin-inline: auto;
     margin-bottom: 16px;
     font-size: clamp(2.02rem, 10.2vw, 3.05rem);
   }
 
   .phone-showcase-copy p {
+    margin-inline: auto;
     font-size: clamp(0.98rem, 4.2vw, 1.06rem);
     line-height: 1.55;
   }
 
   .phone-showcase-copy .text-link {
+    justify-content: center;
     margin-top: 22px;
   }
 
   .phone-stage {
     order: 1;
-    min-height: clamp(250px, 72vw, 324px);
-    overflow: hidden;
+    min-height: clamp(264px, 74vw, 334px);
+    overflow: visible;
   }
 
   .phone-stage-ambient {
@@ -2368,20 +2458,67 @@ h3 {
 
   .phone-stack {
     width: 100%;
-    min-height: clamp(238px, 68vw, 310px);
+    min-height: clamp(252px, 70vw, 318px);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     justify-content: center;
-    gap: clamp(5px, 1.8vw, 9px);
+    align-items: center;
+    gap: clamp(4px, 1.4vw, 8px);
     overflow: visible;
-    padding: 20px 2px 18px;
+    padding: 22px 0 20px;
   }
 
   .phone-card {
-    width: min(100%, clamp(88px, 27.2vw, 122px));
+    width: min(100%, clamp(92px, 28.2vw, 126px));
     justify-self: center;
   }
 
+  .phone-card-1 .phone-card-inner {
+    transform: translateY(8px) rotateY(-5deg) rotateZ(-1.5deg);
+  }
+
+  .phone-card-2 .phone-card-inner {
+    transform: translateY(-8px) translateZ(10px) scale(1.03);
+  }
+
+  .phone-card-3 .phone-card-inner {
+    transform: translateY(8px) rotateY(5deg) rotateZ(1.5deg);
+  }
+
+  .phone-screen {
+    top: 7.75%;
+    height: calc(100% - 10.2%);
+    border-radius: 0 0 14px 14px;
+    clip-path: inset(0 0 0 0 round 0 0 14px 14px);
+  }
+
+  .phone-card-1 .phone-screen {
+    top: 8.25%;
+    height: calc(100% - 11.25%);
+  }
+
+  .phone-card-3 .phone-screen {
+    top: 7.85%;
+    bottom: -2.2%;
+    height: calc(100% - 5.65%);
+    border-radius: 0 0 24px 24px;
+    clip-path: inset(0 0 0 0 round 0 0 24px 24px);
+  }
+
+  .phone-clock {
+    font-size: 7px;
+  }
+
+  .phone-status {
+    gap: 2px;
+  }
+
+  .phone-status svg {
+    width: 7px;
+    height: 7px;
+  }
+
   .phone-scroll-hint {
+    display: none;
     min-height: 24px;
     padding: 6px 8px 6px 9px;
     font-size: 0.46rem;
@@ -2401,7 +2538,7 @@ h3 {
   }
 
   .process-copy {
-    padding-left: 0;
+    padding: 0;
   }
 
   .process-copy::before {
@@ -2410,6 +2547,10 @@ h3 {
 
   .process-rail {
     border: 1px solid rgba(7, 7, 7, 0.075);
+  }
+
+  .process-panel {
+    min-height: auto;
   }
 
   .process-step-dot {
@@ -2434,20 +2575,21 @@ h3 {
   }
 
   .process-panel-number {
-    top: 18px;
-    right: 14px;
-    font-size: clamp(5rem, 25vw, 7.4rem);
+    top: 6px;
+    right: 8px;
+    font-size: clamp(4.2rem, 21vw, 6.4rem);
   }
 
   .process-panel-content {
-    --process-panel-offset: 58px;
-    min-height: 250px;
-    padding: var(--process-panel-offset) 20px 28px;
+    --process-panel-offset: 18px;
+    min-height: auto;
+    padding: var(--process-panel-offset) 0 0;
   }
 
   .process-panel h3 {
     max-width: min(100%, 430px);
-    margin-bottom: 18px;
+    margin-bottom: 14px;
+    font-size: clamp(2rem, 10vw, 2.85rem);
   }
 
   .process-panel h3 span {
@@ -2464,22 +2606,68 @@ h3 {
   .footer-main,
   .footer-bottom {
     grid-template-columns: 1fr;
-    justify-items: start;
+    justify-items: center;
+  }
+
+  .site-footer {
+    padding: 38px 0 30px;
+  }
+
+  .footer-shell {
+    gap: 28px;
+    text-align: center;
+  }
+
+  .footer-brand {
+    max-width: none;
+    justify-items: center;
+    gap: 14px;
+  }
+
+  .footer-logo {
+    width: min(100%, 260px);
+  }
+
+  .footer-brand span {
+    max-width: 30rem;
+    text-align: center;
+    text-align-last: auto;
+    font-size: 0.92rem;
+    line-height: 1.55;
   }
 
   .footer-bottom {
     min-width: 0;
+    width: 100%;
+    gap: 18px;
+    justify-items: center;
   }
 
   .footer-links {
     grid-column: auto;
+    width: min(100%, 330px);
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    justify-content: center;
+    gap: 18px;
   }
 
-  .footer-links {
-    flex-wrap: wrap;
+  .footer-socials {
+    width: auto;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .footer-socials a {
+    width: 46px;
+    height: 46px;
   }
 
   .footer-copyright {
+    width: auto;
+    display: block;
+    text-align: center;
+    text-align-last: auto;
     white-space: normal;
   }
 }
