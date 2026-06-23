@@ -13,6 +13,10 @@ export const metadata: Metadata = {
     type: "website",
     images: ["/assets/hero-creative-studio.png"],
   },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({
