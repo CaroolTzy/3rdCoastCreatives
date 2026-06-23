@@ -3,12 +3,20 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Mail, MessageCircle, Play } from "lucide-react";
 import {
-  portfolioItems,
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Copy,
+  Mail,
+  MessageCircle,
+  Play,
+} from "lucide-react";
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import {
+  partnerLogos,
   processSteps,
   services,
-  testimonials,
 } from "@/lib/content";
 import { Header } from "./header";
 import {
@@ -21,29 +29,61 @@ import { PhoneShowcase } from "./phone-showcase";
 
 const proofItems = [
   {
-    label: "Clearer direction",
-    copy: "A single visual path for content, campaigns, and channels.",
+    label: "Strategy & Research",
+    copy: "Niche-focused direction. Deep industry research to build a clear, data-backed visual path.",
   },
   {
     label: "Launch-ready assets",
-    copy: "Photography, video, and social pieces shaped for release.",
+    copy: "Digital-first content. High-converting video, photography, and social pieces shaped for release.",
   },
   {
-    label: "Monthly content systems",
-    copy: "Repeatable production rhythm without scattered handoffs.",
+    label: "Reputation & Systems",
+    copy: "Brand authority. Repeatable content systems and light PR to protect and grow your reputation.",
   },
 ];
 
 const projectTypes = [
-  "Social media management",
-  "Content creation",
-  "Photography / video",
-  "Digital marketing",
+  "Brand design & logos",
+  "Social & campaign planning",
+  "Video production",
+  "Brand photography",
+  "Event coverage",
+  "Digital brand assets",
+];
+
+const marqueeRows = [
+  partnerLogos.slice(0, 6),
+  partnerLogos.slice(6),
+];
+
+const socialLinks = [
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/share/1BrUfsFSiF/?mibextid=wwXIfr",
+    icon: FaFacebookF,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/3rdcoastcc?igsh=a3A1enEwcDk1Mmhi",
+    icon: FaInstagram,
+  },
 ];
 
 export function HomePage() {
   const [selectedProject, setSelectedProject] = useState(projectTypes[0]);
   const [projectOpen, setProjectOpen] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const contactEmail = "wecreate@3rdcoastcreatives.com";
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(contactEmail);
+      setEmailCopied(true);
+      window.setTimeout(() => setEmailCopied(false), 1600);
+    } catch {
+      setEmailCopied(false);
+    }
+  };
 
   return (
     <main>
@@ -60,10 +100,14 @@ export function HomePage() {
         <div className="hero-overlay" />
         <div className="container hero-grid">
           <div className="hero-copy">
-            <h1>Creative that makes your brand easier to choose.</h1>
+            <h1>
+              Creative built to
+              <br className="desktop-break" />
+              connect, engage & grow.
+            </h1>
             <p className="hero-lede">
-              Social content, photography, video, and campaign assets shaped
-              into one clear visual direction.
+              Social media content and digital campaigns built on strategy and
+              consistency to position your brand for growth.
             </p>
             <div className="hero-actions">
               <Link className="button button-primary" href="#contact">
@@ -96,12 +140,13 @@ export function HomePage() {
         <div className="container services-layout">
           <div className="services-copy">
             <Reveal>
-              <h2>Creative support without the scattered handoff.</h2>
+              <h2>Seamless strategic creative from start to finish.</h2>
             </Reveal>
             <Reveal delay={0.12}>
               <p className="section-lede">
-                Strategy, production, design, and campaign delivery stay tied to
-                the same visual standard.
+                From niche research and creative strategy to custom logos, video
+                production, and event coverage, we handle your entire visual
+                footprint under one roof.
               </p>
             </Reveal>
           </div>
@@ -131,42 +176,43 @@ export function HomePage() {
         <div className="container split-feature">
           <Reveal>
             <div>
-              <h2>Campaign visuals built to move.</h2>
+              <h2>Trusted by partners and clients.</h2>
               <p>
-                Sample directions for launches, feeds, and content cycles that
-                need to feel consistent across every touchpoint.
+                Brands, organizations, events, and campaigns rely on 3rd Coast
+                Creatives for visual systems built to move.
               </p>
-              <Link className="text-link" href="/portfolio">
-                See the portfolio
+              <Link className="text-link" href="#contact">
+                Build with us
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </div>
           </Reveal>
           <Reveal delay={0.12}>
-            <div className="portfolio-strip">
-              {portfolioItems.slice(0, 6).map((item) => (
-                <MotionCard className="portfolio-motion" key={item.title}>
-                  <article className="portfolio-tile">
-                    <div
-                      className="tile-image"
-                      style={{ backgroundPosition: item.imagePosition }}
-                    />
-                    <div>
-                      <span>{item.category}</span>
-                      <strong>
-                        {item.title === "Launch Content System" ? (
-                          <>
-                            Launch&nbsp;Content
-                            <br />
-                            System
-                          </>
-                        ) : (
-                          item.title
-                        )}
-                      </strong>
-                    </div>
-                  </article>
-                </MotionCard>
+            <div className="partner-marquee" aria-label="Partner and client logos">
+              {marqueeRows.map((row, rowIndex) => (
+                <div className="partner-marquee-row" key={`partner-row-${rowIndex}`}>
+                  <div className="partner-marquee-track">
+                    {[...row, ...row].map((logo, logoIndex) => {
+                      const isDuplicate = logoIndex >= row.length;
+
+                      return (
+                        <div
+                          aria-hidden={isDuplicate}
+                          className="partner-logo-card"
+                          key={`${logo.src}-${logoIndex}`}
+                        >
+                          <Image
+                            src={logo.src}
+                            alt={isDuplicate ? "" : logo.name}
+                            width={600}
+                            height={338}
+                            sizes="(max-width: 680px) 220px, 280px"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               ))}
             </div>
           </Reveal>
@@ -175,24 +221,67 @@ export function HomePage() {
 
       <PinnedProcess steps={processSteps} />
 
-      <ScrollScene className="section dark-section testimonial-section">
-        <div className="container">
-          <Reveal>
-            <h2>Clearer creative. Cleaner delivery.</h2>
+      <ScrollScene className="section dark-section founder-section" id="about">
+        <div className="container founder-profile-grid">
+          <Reveal className="founder-profile-card">
+            <div className="founder-portrait-card">
+              <Image
+                src="/assets/team/marielle-munoz-headshot.jpg"
+                alt="Portrait of Marielle Muñoz"
+                fill
+                sizes="(max-width: 980px) 72vw, 330px"
+              />
+            </div>
+            <div className="founder-title-block">
+              <h2>Marielle Muñoz</h2>
+              <p>Founder and Creative Director</p>
+            </div>
           </Reveal>
-          <div className="testimonial-grid">
-            {testimonials.map((testimonial, index) => (
-              <MotionCard key={testimonial.name} delay={index * 0.08}>
-                <blockquote>
-                  <p>&ldquo;{testimonial.quote}&rdquo;</p>
-                  <footer>
-                    <strong>{testimonial.name}</strong>
-                    <span>{testimonial.role}</span>
-                  </footer>
-                </blockquote>
-              </MotionCard>
-            ))}
-          </div>
+
+          <Reveal className="founder-bio" delay={0.12}>
+            <p className="founder-lead">
+              Strategic storytelling with a human-centered edge.
+            </p>
+            <p>
+              Marielle is the Founder and Creative Director of 3rd Coast
+              Creatives, a creative studio specializing in storytelling, video
+              production, and digital content creation.
+            </p>
+            <p>
+              She brings over 10 years of experience in the creative industry,
+              with a strong foundation built across both government and corporate
+              environments. Her background includes working in a state university
+              setting, where she led a university-based online media channel and
+              taught courses in video production, non-linear editing, and
+              television and digital media production.
+            </p>
+            <p>
+              Her professional experience also includes roles as a Social Media
+              Manager and Creative in both an international airline and a
+              national power infrastructure organization, where she developed
+              content strategies, managed digital platforms, and produced
+              multimedia campaigns.
+            </p>
+            <p>
+              She holds a Bachelor&apos;s degree in Broadcast Communication and a
+              Master&apos;s degree in Communication, strengthening her academic
+              foundation in media, storytelling, and production.
+            </p>
+            <p>
+              Since 2015, she has continued to build her creative work across
+              international and community-based projects. Now based in Corpus
+              Christi, she collaborates with local brands, nonprofits, and
+              community initiatives focused on meaningful storytelling and
+              digital engagement.
+            </p>
+            <p>
+              Marielle loves volunteering with nonprofit organizations and has a
+              passion for capturing meaningful moments, whether in community
+              events, creative projects, or everyday life. At the core of her
+              work is a strategic, human-centered approach to storytelling,
+              creating content that feels real, relatable, and memorable.
+            </p>
+          </Reveal>
         </div>
       </ScrollScene>
 
@@ -200,20 +289,32 @@ export function HomePage() {
         <div className="container contact-grid">
           <Reveal>
             <div className="contact-copy">
-              <h2>Tell us what needs to be sharper.</h2>
+              <h2>Tell us what we can build for you.</h2>
               <p>
-                Send the brief, the launch, or the channel that needs a cleaner
+                Send the brief, the campaign, or the channel that needs a cleaner
                 creative system.
               </p>
               <div className="contact-methods">
-                <span>
-                  <Mail size={17} aria-hidden="true" />
-                  hello@3rdcoastcreatives.com
-                </span>
-                <span>
-                  <MessageCircle size={17} aria-hidden="true" />
-                  Project inquiries, launches, and monthly content cycles
-                </span>
+                <div className="contact-method-row">
+                  <Mail className="contact-method-icon" size={17} aria-hidden="true" />
+                  <span>{contactEmail}</span>
+                  <button
+                    aria-label="Copy email address"
+                    className="copy-email-button"
+                    type="button"
+                    onClick={copyEmail}
+                  >
+                    {emailCopied ? (
+                      <Check size={16} aria-hidden="true" />
+                    ) : (
+                      <Copy size={16} aria-hidden="true" />
+                    )}
+                  </button>
+                </div>
+                <div className="contact-method-row">
+                  <MessageCircle className="contact-method-icon" size={17} aria-hidden="true" />
+                  <span>Project inquiries, branding launches, and media production</span>
+                </div>
               </div>
             </div>
           </Reveal>
@@ -276,18 +377,41 @@ export function HomePage() {
       </ScrollScene>
 
       <footer className="site-footer">
-        <div className="container footer-grid">
-          <div className="footer-brand">
-            <strong>3rd Coast Creatives</strong>
-            <span>Digital content, social media, and creative production.</span>
+        <div className="container footer-shell">
+          <div className="footer-main">
+            <div className="footer-brand">
+              <Image
+                className="footer-logo"
+                src="/assets/brand/logo-white.png"
+                alt="3rd Coast Creatives"
+                width={9178}
+                height={1852}
+              />
+              <span>Strategic content, design, and media production for brands ready to grow with clarity.</span>
+            </div>
           </div>
-          <div className="footer-meta">
+
+          <div className="footer-bottom">
             <nav className="footer-links" aria-label="Footer navigation">
               <Link href="/portfolio">Work</Link>
               <Link href="/#services">Services</Link>
+              <Link href="/#about">About</Link>
               <Link href="/#contact">Contact</Link>
             </nav>
-            <span>&copy; 2026 3rd Coast Creatives</span>
+            <div className="footer-socials" aria-label="Social links">
+              {socialLinks.map(({ href, icon: Icon, label }) => (
+                <a
+                  aria-label={`3rd Coast Creatives on ${label}`}
+                  href={href}
+                  key={label}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <Icon aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+            <span className="footer-copyright">&copy; 2026 3rd Coast Creatives</span>
           </div>
         </div>
       </footer>

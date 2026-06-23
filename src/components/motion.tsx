@@ -120,15 +120,11 @@ export function PinnedProcess({
       };
 
   return (
-    <section className="scroll-scene process-scene light-section" id="about" ref={sectionRef}>
+    <section className="scroll-scene process-scene light-section" id="process" ref={sectionRef}>
       <div className="scroll-scene-inner process-sticky">
         <div className="container process-stage">
           <div className="process-copy">
-            <h2>Useful creative with direction.</h2>
-            <p>
-              Planning, design taste, and production execution stay inside one
-              guided workflow.
-            </p>
+            <h2>Strategic creative from start to finish.</h2>
 
             <div className="process-rail" aria-label="Creative process steps">
               {steps.map((step, index) => (

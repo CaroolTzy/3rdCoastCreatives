@@ -1,12 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { IoBatteryFull, IoCellular, IoWifi } from "react-icons/io5";
 import { phoneShowcaseScreens } from "@/lib/content";
 import { Reveal } from "./motion";
 
 export function PhoneShowcase() {
+  const [scrollHintHidden, setScrollHintHidden] = useState(false);
+
+  const handleScrollableMockupScroll = (
+    event: React.UIEvent<HTMLDivElement>,
+  ) => {
+    const target = event.currentTarget;
+    const isAtBottom =
+      target.scrollTop + target.clientHeight >= target.scrollHeight - 8;
+
+    setScrollHintHidden(isAtBottom);
+  };
+
   return (
     <section className="phone-showcase" aria-labelledby="phone-showcase-title">
       <Image
@@ -15,14 +29,14 @@ export function PhoneShowcase() {
         alt=""
         fill
         sizes="100vw"
-        />
+      />
       <div className="phone-showcase-overlay" />
       <div className="container phone-showcase-grid">
         <Reveal className="phone-showcase-copy">
           <h2 id="phone-showcase-title">Campaign systems made for the feed.</h2>
           <p>
-            Layered campaign mockups let social calendars, creative boards, and edit
-            queues move as one connected brand system.
+            Niche-focused strategies let social calendars, creative assets, and public
+            relations move as one connected brand system.
           </p>
           <a className="text-link" href="/portfolio">
             View sample work
@@ -31,6 +45,7 @@ export function PhoneShowcase() {
         </Reveal>
 
         <div className="phone-stage" aria-label="Animated phone mockup previews">
+          <div className="phone-stage-ambient" aria-hidden="true" />
           <div className="phone-stack">
             {phoneShowcaseScreens.map((screen, index) => (
               <motion.figure
@@ -48,12 +63,63 @@ export function PhoneShowcase() {
               >
                 <div className="phone-card-inner">
                   <div className="phone-device">
+                    {screen.scrollable ? (
+                      <div
+                        className="phone-screen phone-screen-scroll"
+                        aria-label={`${screen.title} scrollable preview`}
+                        onScroll={handleScrollableMockupScroll}
+                      >
+                        <Image
+                          src={screen.src}
+                          alt={`${screen.title} mobile screen mockup`}
+                          width={screen.width}
+                          height={screen.height}
+                          sizes="(max-width: 680px) 58vw, 292px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="phone-screen" aria-hidden="true">
+                        <Image
+                          className="phone-screen-img"
+                          src={screen.src}
+                          alt={`${screen.title} mobile screen mockup`}
+                          fill
+                          sizes="(max-width: 680px) 58vw, 292px"
+                        />
+                      </div>
+                    )}
+                    {screen.scrollable ? (
+                      <div
+                        className={`phone-scroll-hint ${
+                          scrollHintHidden ? "is-hidden" : ""
+                        }`}
+                        aria-hidden="true"
+                      >
+                        <span>Scroll to see more</span>
+                        <ChevronDown size={14} strokeWidth={2.6} />
+                      </div>
+                    ) : null}
+                    <time
+                      className={`phone-clock ${index === 2 ? "is-light" : ""}`}
+                      dateTime="09:41"
+                      aria-hidden="true"
+                    >
+                      9:41
+                    </time>
+                    <div
+                      className={`phone-status ${index === 2 ? "is-light" : ""}`}
+                      aria-hidden="true"
+                    >
+                      <IoCellular aria-hidden="true" />
+                      <IoWifi aria-hidden="true" />
+                      <IoBatteryFull aria-hidden="true" />
+                    </div>
                     <Image
-                      className="phone-mockup"
-                      src={screen.src}
-                      alt={`${screen.title} mobile screen mockup`}
-                      width={screen.width}
-                      height={screen.height}
+                      className="phone-frame"
+                      src="/assets/phone-showcase/phone-frame.webp"
+                      alt=""
+                      width={1748}
+                      height={3532}
                       sizes="(max-width: 680px) 58vw, 292px"
                     />
                   </div>

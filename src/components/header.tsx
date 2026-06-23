@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
@@ -12,8 +13,14 @@ export function Header() {
     <header className="site-header">
       <nav className="nav-shell" aria-label="Primary navigation">
         <Link className="brand-mark" href="/" aria-label="3rd Coast Creatives home">
-          <span>3CC</span>
-          <strong>3rd Coast Creatives</strong>
+          <Image
+            className="brand-logo"
+            src="/assets/brand/logo-white.png"
+            alt="3rd Coast Creatives"
+            width={9178}
+            height={1852}
+            priority
+          />
         </Link>
         <div className="nav-links">
           {navItems.map((item) => (
