@@ -7,6 +7,7 @@ import {
   useReducedMotion,
   useScroll,
 } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { PropsWithChildren } from "react";
 
@@ -76,6 +77,10 @@ export function PinnedProcess({
     title: string;
     body: string;
     headingLines?: string[];
+    imageSrc?: string;
+    imageAlt?: string;
+    focus?: string;
+    outputs?: string[];
   }>;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -199,6 +204,25 @@ export function PinnedProcess({
                 <span className="process-panel-number" aria-hidden="true">
                   {activeStep.number}
                 </span>
+                {activeStep.imageSrc ? (
+                  <motion.div
+                    className="process-panel-art"
+                    initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.5,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: shouldReduceMotion ? 0 : 0.06,
+                    }}
+                  >
+                    <Image
+                      src={activeStep.imageSrc}
+                      alt={activeStep.imageAlt ?? ""}
+                      fill
+                      sizes="(max-width: 980px) 100vw, 34vw"
+                    />
+                  </motion.div>
+                ) : null}
                 <motion.h3
                   initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 16 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -223,6 +247,27 @@ export function PinnedProcess({
                 >
                   {activeStep.body}
                 </motion.p>
+                <motion.div
+                  className="process-panel-footer"
+                  initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.42,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: shouldReduceMotion ? 0 : 0.2,
+                  }}
+                >
+                  {activeStep.focus ? (
+                    <span className="process-panel-focus">{activeStep.focus}</span>
+                  ) : null}
+                  {activeStep.outputs?.length ? (
+                    <ul className="process-panel-tags" aria-label="Step outputs">
+                      {activeStep.outputs.map((output) => (
+                        <li key={output}>{output}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>
