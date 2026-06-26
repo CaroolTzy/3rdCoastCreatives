@@ -892,6 +892,10 @@ h3 {
   padding: clamp(86px, 12vw, 154px) 0;
 }
 
+.portfolio-hero + .section {
+  padding-top: clamp(36px, 5vw, 72px);
+}
+
 .section.scroll-scene .scroll-scene-inner {
   padding: clamp(76px, 9vw, 124px) 0;
   display: flex;
@@ -2063,18 +2067,66 @@ h3 {
 }
 
 .portfolio-hero {
+  position: relative;
+  isolation: isolate;
   min-height: 100svh;
+  overflow: hidden;
   padding: 150px 0 78px;
   display: flex;
   align-items: center;
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--white);
+  background: #050505;
+}
+
+.portfolio-hero::before,
+.portfolio-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.portfolio-hero::before {
+  inset: 0;
+  z-index: -2;
+  background:
+    url("/assets/portfolio-preview-bg.png") right 104px / 112% auto no-repeat;
+  opacity: 0.98;
+  filter: saturate(1.02) contrast(1.08);
+  transform: none;
+}
+
+.portfolio-hero::after {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(5, 5, 5, 0.94) 0%, rgba(5, 5, 5, 0.78) 38%, rgba(5, 5, 5, 0.34) 70%, rgba(5, 5, 5, 0.72) 100%),
+    radial-gradient(circle at 78% 42%, rgba(41, 221, 221, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(5, 5, 5, 0.82) 0%, rgba(5, 5, 5, 0.18) 45%, #050505 100%);
+}
+
+.portfolio-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.portfolio-hero-copy {
+  max-width: 680px;
 }
 
 .portfolio-hero h1 {
-  max-width: 760px;
-  color: var(--ink);
-  font-size: clamp(3rem, 4.25vw, 4.45rem);
+  max-width: 660px;
+  margin-bottom: clamp(20px, 2vw, 28px);
+  color: var(--white);
+  font-size: clamp(3rem, 4.6vw, 4.85rem);
+  line-height: 0.94;
+}
+
+.portfolio-hero p {
+  max-width: 480px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: clamp(1rem, 1.18vw, 1.12rem);
+  line-height: 1.52;
 }
 
 .portfolio-grid-page {
@@ -2314,6 +2366,50 @@ h3 {
     padding: 104px 0 50px;
   }
 
+  .portfolio-hero {
+    min-height: auto;
+    padding: 172px 0 44px;
+    align-items: flex-start;
+  }
+
+  .portfolio-hero::before {
+    inset: 0;
+    height: auto;
+    background:
+      url("/assets/portfolio-preview-bg.png") 68% 86px / auto 118% no-repeat;
+    opacity: 1;
+    filter: saturate(1.02) contrast(1.08);
+    transform: none;
+    mask-image: none;
+  }
+
+  .portfolio-hero::after {
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.82) 0%, rgba(5, 5, 5, 0.36) 42%, #050505 100%),
+      linear-gradient(90deg, rgba(5, 5, 5, 0.88) 0%, rgba(5, 5, 5, 0.58) 52%, rgba(5, 5, 5, 0.82) 100%);
+  }
+
+  .portfolio-hero-grid {
+    display: block;
+  }
+
+  .portfolio-hero h1 {
+    max-width: 20rem;
+    margin-bottom: 28px;
+    font-size: clamp(2.16rem, 10.4vw, 3.32rem);
+    line-height: 0.98;
+  }
+
+  .portfolio-hero p {
+    max-width: 20.5rem;
+    font-size: clamp(0.96rem, 4.15vw, 1.06rem);
+    line-height: 1.52;
+  }
+
+  .portfolio-hero + .section {
+    padding-top: 18px;
+  }
+
   .hero-bg {
     object-position: center;
     opacity: 1;
@@ -2457,25 +2553,67 @@ h3 {
   }
 
   .service-grid,
-  .portfolio-grid-page,
   .process-rail {
     grid-template-columns: 1fr;
   }
 
+  .portfolio-grid-page {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .case-card {
+    min-height: 252px;
+  }
+
+  .case-image {
+    min-height: 150px;
+  }
+
+  .case-content {
+    padding: 12px;
+  }
+
+  .case-content span {
+    margin-bottom: 6px;
+    font-size: 0.56rem;
+    line-height: 1.1;
+  }
+
+  .case-content h2 {
+    margin-bottom: 6px;
+    font-size: clamp(0.76rem, 3.4vw, 0.94rem);
+    line-height: 1.04;
+  }
+
+  .case-content p {
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
   .partner-marquee {
     order: 1;
-    gap: 10px;
+    gap: 0;
     overflow: hidden;
     transform: none;
+  }
+
+  .partner-marquee::before,
+  .partner-marquee::after {
+    width: 64px;
   }
 
   .partner-marquee-row {
     overflow: hidden;
   }
 
+  .partner-marquee-row:nth-child(2) {
+    display: none;
+  }
+
   .portfolio-preview .split-feature {
     text-align: center;
-    gap: 30px;
+    gap: 24px;
   }
 
   .portfolio-preview .split-feature > :first-child {
@@ -2497,11 +2635,12 @@ h3 {
   }
 
   .partner-marquee-track {
-    gap: 10px;
+    gap: 12px;
   }
 
   .partner-logo-card {
-    width: clamp(190px, 62vw, 250px);
+    width: clamp(174px, 56vw, 226px);
+    opacity: 0.9;
   }
 
   .services-copy h2 {
@@ -2660,7 +2799,7 @@ h3 {
 
   .process-copy h2,
   .process-panel h3 {
-    font-size: clamp(2.05rem, 11vw, 3.25rem);
+    font-size: clamp(1.92rem, 9.5vw, 2.72rem);
   }
 
   .process-copy {
@@ -2681,19 +2820,18 @@ h3 {
   }
 
   .process-step-dot {
-    min-height: 58px;
-    padding: 0 10px 0 12px;
-    grid-template-columns: 36px 1fr;
-    gap: 12px;
+    min-height: 54px;
+    padding: 0 12px;
+    grid-template-columns: 34px 1fr;
+    gap: 10px;
     cursor: pointer;
   }
 
   .process-step-dot.is-active {
     min-height: auto;
     align-content: start;
-    padding-left: 12px;
-    padding-top: 18px;
-    padding-bottom: 18px;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
 
   .process-step-dot i {
@@ -2702,12 +2840,13 @@ h3 {
   }
 
   .process-step-number {
-    width: 26px;
-    height: 26px;
+    width: 25px;
+    height: 25px;
   }
 
   .process-step-dot strong {
     align-self: center;
+    font-size: 0.72rem;
   }
 
   .process-step-dot.is-active strong {
@@ -2728,10 +2867,10 @@ h3 {
 
   .process-step-mobile-body span {
     display: block;
-    margin: 10px 0 0;
-    font-size: 0.94rem;
+    margin: 8px 0 0;
+    font-size: 0.88rem;
     font-weight: 500;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   .process-panel-number {

@@ -13,15 +13,13 @@ export function PortfolioPage() {
       <section className="portfolio-hero">
         <div className="container portfolio-hero-grid">
           <Reveal>
-            <div>
-              <h1>Visual directions for brands that need a sharper feed.</h1>
+            <div className="portfolio-hero-copy">
+              <h1>Campaign visuals built for a sharper feed.</h1>
+              <p>
+                See how strategy, design, photo, video, and social assets can
+                move together as one campaign system.
+              </p>
             </div>
-          </Reveal>
-          <Reveal delay={0.12}>
-            <p>
-              Sample creative systems show how social, design, photo, video,
-              and marketing assets can work together across a campaign.
-            </p>
           </Reveal>
         </div>
       </section>
