@@ -25,7 +25,7 @@ export function PhoneShowcase() {
     <section className="phone-showcase" aria-labelledby="phone-showcase-title">
       <Image
         className="phone-showcase-bg"
-        src="/assets/phone-showcase/background-plate.png"
+        src="/assets/portfolio-preview-bg-v3.png"
         alt=""
         fill
         sizes="100vw"

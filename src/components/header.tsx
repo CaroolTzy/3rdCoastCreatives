@@ -15,7 +15,7 @@ export function Header() {
         <Link className="brand-mark" href="/" aria-label="3rd Coast Creatives home">
           <Image
             className="brand-logo"
-            src="/assets/brand/logo-white.png"
+            src="/assets/brand/logo-purple.png"
             alt="3rd Coast Creatives"
             width={9178}
             height={1852}

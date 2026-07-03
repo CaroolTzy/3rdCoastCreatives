@@ -236,7 +236,7 @@ export function HomePage() {
       <ScrollScene className="hero-section" scale={false}>
         <Image
           className="hero-bg"
-          src="/assets/hero-centered-cinematic-studio.png"
+          src="/assets/hero-centered-cinematic-studio-v2.png"
           alt=""
           fill
           priority
@@ -248,6 +248,7 @@ export function HomePage() {
             <h1>
               Creative built to
               <br className="desktop-break" />
+              {" "}
               connect, engage & grow.
             </h1>
             <p className="hero-lede">
