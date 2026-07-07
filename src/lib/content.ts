@@ -98,51 +98,51 @@ export const portfolioItems = [
 export const partnerLogos = [
   {
     name: "Habitat for Humanity Corpus Christi",
-    src: "/assets/portfolio/client-habitat-for-humanity-corpus-christi.png",
+    src: "/assets/clients/client-habitat-for-humanity-corpus-christi.png",
   },
   {
     name: "Harbor Half Marathon",
-    src: "/assets/portfolio/client-harbor-half-marathon.png",
+    src: "/assets/clients/client-harbor-half-marathon.png",
   },
   {
     name: "Crawfish for a Cause Corpus Christi",
-    src: "/assets/portfolio/client-crawfish-for-a-cause-corpus-christi.png",
+    src: "/assets/clients/client-crawfish-for-a-cause-corpus-christi.png",
   },
   {
     name: "Discover Aransas County",
-    src: "/assets/portfolio/client-discover-aransas-county.png",
+    src: "/assets/clients/client-discover-aransas-county.png",
   },
   {
     name: "Coastal Bend Filipino-American Association",
-    src: "/assets/portfolio/client-coastal-bend-filam-association.png",
+    src: "/assets/clients/client-coastal-bend-filam-association.png",
   },
   {
     name: "Hotel Lydia",
-    src: "/assets/portfolio/client-hotel-lydia.png",
+    src: "/assets/clients/client-hotel-lydia.png",
   },
   {
     name: "Beacon at Hotel Lydia",
-    src: "/assets/portfolio/client-beacon-at-hotel-lydia.png",
+    src: "/assets/clients/client-beacon-at-hotel-lydia.png",
   },
   {
     name: "The Bar & Grill Corpus Christi",
-    src: "/assets/portfolio/client-the-bar-and-grill-corpus-christi.png",
+    src: "/assets/clients/client-the-bar-and-grill-corpus-christi.png",
   },
   {
     name: "Winsupply of Corpus Christi Plumbing",
-    src: "/assets/portfolio/client-winsupply-corpus-christi.png",
+    src: "/assets/clients/client-winsupply-corpus-christi.png",
   },
   {
     name: "Burapha University Graduate School",
-    src: "/assets/portfolio/client-burapha-university-graduate-school.png",
+    src: "/assets/clients/client-burapha-university-graduate-school.png",
   },
   {
     name: "Joe A. Gonzalez Education is Freedom Scholarship Program",
-    src: "/assets/portfolio/client-education-is-freedom-scholarship-program.png",
+    src: "/assets/clients/client-education-is-freedom-scholarship-program.png",
   },
   {
     name: "Lost Travel",
-    src: "/assets/portfolio/client-lost-travel.png",
+    src: "/assets/clients/client-lost-travel.png",
     scale: 0.64,
   },
 ];
@@ -151,14 +151,14 @@ export const phoneShowcaseScreens = [
   {
     title: "Hotel Lydia analytics",
     label: "Performance",
-    src: "/assets/portfolio/case-hotel-lydia-analytics.png",
+    src: "/assets/phone-showcase/screen-hotel-lydia-analytics.png",
     width: 1080,
     height: 1920,
   },
   {
     title: "Hotel Lydia profile",
     label: "Profile system",
-    src: "/assets/portfolio/case-hotel-lydia-social-profile.png",
+    src: "/assets/phone-showcase/screen-hotel-lydia-social-profile.png",
     width: 1080,
     height: 2570,
     scrollable: true,
@@ -166,7 +166,7 @@ export const phoneShowcaseScreens = [
   {
     title: "Harbor Half content",
     label: "Event coverage",
-    src: "/assets/portfolio/case-harbor-half-social-content.png",
+    src: "/assets/phone-showcase/screen-harbor-half-social-content.png",
     width: 1080,
     height: 1920,
   },
