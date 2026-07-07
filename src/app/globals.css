@@ -1395,13 +1395,11 @@ h3 {
   min-height: 168px;
 }
 
-.portfolio-tile div:last-child,
-.case-content {
+.portfolio-tile div:last-child {
   padding: 16px;
 }
 
-.portfolio-tile span,
-.case-content span {
+.portfolio-tile span {
   display: block;
   margin-bottom: 8px;
   color: var(--cyan);
@@ -2281,7 +2279,7 @@ h3 {
 .portfolio-grid-page {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: clamp(12px, 1.2vw, 18px);
   align-items: start;
 }
 
@@ -2315,16 +2313,6 @@ h3 {
 .portfolio-group-heading h2,
 .portfolio-group-heading p {
   margin: 0;
-}
-
-.portfolio-group-heading span {
-  display: block;
-  margin-bottom: 6px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: clamp(0.7rem, 0.78vw, 0.82rem);
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
 }
 
 .portfolio-group-heading h2 {
@@ -2592,13 +2580,19 @@ h3 {
 .case-card {
   min-height: 0;
   display: grid;
-  grid-template-rows: auto auto;
-  transition: transform 220ms ease, border-color 220ms ease;
+  grid-template-rows: auto;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: #05040a;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.18);
+  content-visibility: auto;
+  contain-intrinsic-size: 360px;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .case-image,
 .case-video-media {
-  min-height: 240px;
+  aspect-ratio: 1.18 / 1;
+  min-height: 0;
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -2630,6 +2624,29 @@ div.case-video-media {
   display: block;
   object-fit: cover;
   cursor: pointer;
+}
+
+.case-image::after,
+.case-video-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 26%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0) 42%);
+  opacity: 0.72;
+  transition: opacity 220ms ease;
+}
+
+.case-card:hover {
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.34);
+}
+
+.case-card:hover .case-image::after,
+.case-card:hover .case-video-media::after {
+  opacity: 0.42;
 }
 
 .case-video-controls {
@@ -2808,19 +2825,28 @@ div.case-video-media {
 .case-play {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: grid;
   place-items: center;
   color: var(--white);
-  background: transparent;
+  background: rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transition: opacity 180ms ease, background 180ms ease;
+}
+
+.case-video-media:hover .case-play,
+.case-video-media:focus-visible .case-play {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.28);
 }
 
 .case-play svg {
-  width: 52px;
-  height: 52px;
-  padding: 16px;
+  width: 48px;
+  height: 48px;
+  padding: 15px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.34);
+  background: rgba(0, 0, 0, 0.62);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
 }
 
 .story-card {
@@ -2836,7 +2862,6 @@ div.case-video-media {
   aspect-ratio: 1 / 2;
   overflow: visible;
   background: transparent;
-  filter: drop-shadow(0 24px 70px rgba(0, 0, 0, 0.36));
 }
 
 .story-phone::before {
@@ -2849,6 +2874,7 @@ div.case-video-media {
   z-index: 0;
   border-radius: 5.4% / 2.8%;
   background: #05040a;
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.34);
   pointer-events: none;
 }
 
@@ -2906,6 +2932,18 @@ div.case-video-media {
   height: 100%;
   border: 0;
   display: block;
+}
+
+.story-media video,
+.story-media span {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
   object-fit: cover;
 }
 
@@ -3066,17 +3104,6 @@ div.case-video-media {
   justify-self: center;
   width: clamp(19px, 5.8vw, 22px);
   height: clamp(19px, 5.8vw, 22px);
-}
-
-.case-content h2 {
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.case-content p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.58);
 }
 
 .portfolio-load-more-wrap {
@@ -3614,33 +3641,12 @@ div.case-video-media {
   }
 
   .case-card {
-    min-height: 252px;
+    min-height: 0;
   }
 
   .case-image,
   .case-video-media {
-    min-height: 150px;
-  }
-
-  .case-content {
-    padding: 12px;
-  }
-
-  .case-content span {
-    margin-bottom: 6px;
-    font-size: 0.56rem;
-    line-height: 1.1;
-  }
-
-  .case-content h2 {
-    margin-bottom: 6px;
-    font-size: clamp(0.76rem, 3.4vw, 0.94rem);
-    line-height: 1.04;
-  }
-
-  .case-content p {
-    font-size: 0.68rem;
-    line-height: 1.25;
+    aspect-ratio: 1 / 0.86;
   }
 
   .partner-marquee {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -60,6 +61,183 @@ const getAssetLabel = (
 
   return `${count} ${firstCategory.toLowerCase()} ${count === 1 ? "asset" : "assets"}`;
 };
+
+const useLazyAsset = <T extends HTMLElement>() => {
+  const ref = useRef<T>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    if (shouldLoad || !element) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "360px 0px" },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [shouldLoad]);
+
+  return [ref, shouldLoad] as const;
+};
+
+function LazyBackgroundButton({
+  ariaLabel,
+  children,
+  className,
+  imagePosition,
+  imageSrc,
+  onClick,
+}: {
+  ariaLabel: string;
+  children: ReactNode;
+  className: string;
+  imagePosition: string;
+  imageSrc: string;
+  onClick: () => void;
+}) {
+  const [ref, shouldLoad] = useLazyAsset<HTMLButtonElement>();
+
+  return (
+    <button
+      aria-label={ariaLabel}
+      className={className}
+      onClick={onClick}
+      ref={ref}
+      style={
+        shouldLoad
+          ? {
+              backgroundImage: `url(${imageSrc})`,
+              backgroundPosition: imagePosition,
+            }
+          : undefined
+      }
+      type="button"
+    >
+      {children}
+    </button>
+  );
+}
+
+function LazyBackgroundImage({
+  className,
+  imagePosition,
+  imageSrc,
+}: {
+  className: string;
+  imagePosition: string;
+  imageSrc: string;
+}) {
+  const [ref, shouldLoad] = useLazyAsset<HTMLDivElement>();
+
+  return (
+    <div
+      className={className}
+      ref={ref}
+      style={
+        shouldLoad
+          ? {
+              backgroundImage: `url(${imageSrc})`,
+              backgroundPosition: imagePosition,
+              backgroundSize: "cover",
+            }
+          : undefined
+      }
+    />
+  );
+}
+
+function LazyStoryMedia({
+  imagePosition,
+  imageSrc,
+  videoSrc,
+}: {
+  imagePosition: string;
+  imageSrc: string;
+  videoSrc?: string;
+}) {
+  const [ref, shouldLoad] = useLazyAsset<HTMLDivElement>();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [shouldPlay, setShouldPlay] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    if (!element || !videoSrc) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldPlay(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShouldPlay(Boolean(entry?.isIntersecting));
+      },
+      { threshold: 0.42 },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [ref, videoSrc]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    if (shouldPlay) {
+      void video.play();
+      return;
+    }
+
+    video.pause();
+  }, [shouldPlay]);
+
+  return (
+    <div className="story-media" ref={ref}>
+      {shouldLoad && videoSrc ? (
+        <video
+          loop
+          muted
+          playsInline
+          poster={imageSrc}
+          preload="none"
+          ref={videoRef}
+          src={videoSrc}
+        />
+      ) : shouldLoad ? (
+        <span
+          aria-hidden="true"
+          style={{
+            backgroundImage: `url(${imageSrc})`,
+            backgroundPosition: imagePosition,
+          }}
+        />
+      ) : null}
+    </div>
+  );
+}
 
 function PortfolioVideoPlayer({
   className,
@@ -447,17 +625,16 @@ export function PortfolioPage() {
                   ))}
                 </nav>
                 <div className="portfolio-groups">
-                  {groupedItems.map((group, groupIndex) => (
-                    <section
-                      className="portfolio-group-section"
-                      data-portfolio-group={selectedCategory.slug}
-                      id={group.id}
-                      key={group.id}
-                    >
+                  {groupedItems.map((group) => (
+                      <section
+                        className="portfolio-group-section"
+                        data-portfolio-group={selectedCategory.slug}
+                        id={group.id}
+                        key={group.id}
+                      >
                       <Reveal>
                         <div className="portfolio-group-heading">
                           <div>
-                            <span>{selectedCategory.title.replace(/\n/g, " ")}</span>
                             <h2>{group.name}</h2>
                           </div>
                           <p>{group.label}</p>
@@ -488,12 +665,9 @@ export function PortfolioPage() {
                               : "portrait";
                           const videoClassName = `case-video-media is-${orientation}`;
                           const profileLogoSrc = isStory ? getStoryProfileLogo(account) : undefined;
-                          const delay = ((groupIndex + itemIndex) % 4) * 0.05;
-
                           return (
-                            <Reveal key={`${item.title}-${imageSrc}`} delay={delay}>
-                              {isStory ? (
-                                <article className="story-card">
+                            isStory ? (
+                              <article className="story-card" key={`${item.title}-${imageSrc}`}>
                                   <div className="story-phone">
                                     <time className="story-clock" dateTime="09:41" aria-hidden="true">
                                       9:41
@@ -505,26 +679,11 @@ export function PortfolioPage() {
                                     </div>
                                     <div className="story-screen">
                                       <div className="story-media-area">
-                                        {isVideo && isPlaying ? (
-                                          <video
-                                            autoPlay
-                                            className="story-media"
-                                            controls
-                                            playsInline
-                                            poster={imageSrc}
-                                            src={videoSrc}
-                                          />
-                                        ) : (
-                                          <video
-                                            autoPlay
-                                            className="story-media"
-                                            loop
-                                            muted
-                                            playsInline
-                                            poster={imageSrc}
-                                            src={videoSrc}
-                                          />
-                                        )}
+                                        <LazyStoryMedia
+                                          imagePosition={imagePosition}
+                                          imageSrc={imageSrc}
+                                          videoSrc={videoSrc}
+                                        />
                                         <div className="story-progress" aria-hidden="true">
                                           <span />
                                           <span />
@@ -533,7 +692,13 @@ export function PortfolioPage() {
                                         <div className="story-top">
                                           <span className={`story-avatar ${profileLogoSrc ? "has-logo" : ""}`}>
                                             {profileLogoSrc ? (
-                                              <img alt="" aria-hidden="true" src={profileLogoSrc} />
+                                              <img
+                                                alt=""
+                                                aria-hidden="true"
+                                                decoding="async"
+                                                loading="lazy"
+                                                src={profileLogoSrc}
+                                              />
                                             ) : (
                                               account.slice(0, 1)
                                             )}
@@ -555,12 +720,14 @@ export function PortfolioPage() {
                                       alt=""
                                       aria-hidden="true"
                                       className="story-frame"
+                                      decoding="async"
+                                      loading="lazy"
                                       src="/assets/phone-showcase/iphone-frame.webp"
                                     />
                                   </div>
                                 </article>
-                              ) : (
-                                <article className="case-card">
+                            ) : (
+                              <article className="case-card" key={`${item.title}-${imageSrc}`}>
                                   {isVideo && isPlaying ? (
                                     <PortfolioVideoPlayer
                                       className={videoClassName}
@@ -568,38 +735,26 @@ export function PortfolioPage() {
                                       src={videoSrc}
                                     />
                                   ) : isVideo ? (
-                                    <button
-                                      aria-label={`Play ${item.title}`}
+                                    <LazyBackgroundButton
+                                      ariaLabel={`Play ${item.title}`}
                                       className={videoClassName}
+                                      imagePosition={imagePosition}
+                                      imageSrc={imageSrc}
                                       onClick={() => setPlayingVideo(videoSrc)}
-                                      style={{
-                                        backgroundImage: `url(${imageSrc})`,
-                                        backgroundPosition: imagePosition,
-                                      }}
-                                      type="button"
                                     >
                                       <span className="case-play">
                                         <Play size={22} fill="currentColor" aria-hidden="true" />
                                       </span>
-                                    </button>
+                                    </LazyBackgroundButton>
                                   ) : (
-                                    <div
+                                    <LazyBackgroundImage
                                       className="case-image"
-                                      style={{
-                                        backgroundImage: `url(${imageSrc})`,
-                                        backgroundPosition: imagePosition,
-                                        backgroundSize: "cover",
-                                      }}
+                                      imagePosition={imagePosition}
+                                      imageSrc={imageSrc}
                                     />
                                   )}
-                                  <div className="case-content">
-                                    <span>{item.category}</span>
-                                    <h2>{item.title}</h2>
-                                    <p>{item.metric}</p>
-                                  </div>
                                 </article>
-                              )}
-                            </Reveal>
+                            )
                           );
                         })}
                       </div>
