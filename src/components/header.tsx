@@ -2,12 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUp, ArrowUpRight, Menu, X } from "lucide-react";
 import { navItems } from "@/lib/content";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const syncScrollButton = () => {
+      setShowScrollTop(window.scrollY > 640);
+    };
+
+    syncScrollButton();
+    window.addEventListener("scroll", syncScrollButton, { passive: true });
+
+    return () => window.removeEventListener("scroll", syncScrollButton);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <header className="site-header">
@@ -50,6 +69,14 @@ export function Header() {
           </Link>
         ))}
       </div>
+      <button
+        aria-label="Scroll to top"
+        className={`scroll-top-button ${showScrollTop ? "is-visible" : ""}`}
+        onClick={scrollToTop}
+        type="button"
+      >
+        <ArrowUp size={18} aria-hidden="true" />
+      </button>
     </header>
   );
 }
