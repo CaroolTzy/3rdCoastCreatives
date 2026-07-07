@@ -236,7 +236,7 @@ export function HomePage() {
       <ScrollScene className="hero-section" scale={false}>
         <Image
           className="hero-bg"
-          src="/assets/hero-centered-cinematic-studio-v2.png"
+          src="/assets/backgrounds/hero-studio-campaign.png"
           alt=""
           fill
           priority
@@ -368,6 +368,9 @@ export function HomePage() {
                             width={600}
                             height={338}
                             sizes="(max-width: 680px) 220px, 280px"
+                            style={{
+                              transform: logo.scale ? `scale(${logo.scale})` : undefined,
+                            }}
                           />
                         </div>
                       );
@@ -400,47 +403,46 @@ export function HomePage() {
           </Reveal>
 
           <Reveal className="founder-bio" delay={0.12}>
-            <p className="founder-lead">
-              Strategic storytelling with a human-centered edge.
-            </p>
             <p>
               Marielle is the Founder and Creative Director of 3rd Coast
-              Creatives, a creative studio specializing in storytelling, video
-              production, and digital content creation.
+              Creatives, a creative agency specializing in brand strategy,
+              content creation, video production, and digital marketing.
             </p>
             <p>
-              She brings over 10 years of experience in the creative industry,
-              with a strong foundation built across both government and corporate
-              environments. Her background includes working in a state university
-              setting, where she led a university-based online media channel and
-              taught courses in video production, non-linear editing, and
-              television and digital media production.
+              With over a decade of experience in creative communications, she
+              has built her career across higher education, government, and
+              corporate organizations developing strategic campaigns that
+              connect brands with their audiences through authentic storytelling.
             </p>
             <p>
-              Her professional experience also includes roles as a Social Media
-              Manager and Creative in both an international airline and a
-              national power infrastructure organization, where she developed
-              content strategies, managed digital platforms, and produced
-              multimedia campaigns.
+              Her professional background includes leading a university-based
+              online media channel while teaching courses in video production,
+              non-linear editing, and television and digital media production.
+              She later served as a Social Media Manager and Creative for both
+              an international airline and a national power infrastructure
+              organization where she developed digital strategies, managed brand
+              communications, and produced multimedia campaigns.
             </p>
             <p>
-              She holds a Bachelor&apos;s degree in Broadcast Communication and a
-              Master&apos;s degree in Communication, strengthening her academic
-              foundation in media, storytelling, and production.
+              Marielle holds a Bachelor&apos;s degree in Broadcast Communication and
+              a Master&apos;s degree in Communication combining academic expertise
+              with hands-on experience in media production, strategic
+              communication, and digital content.
             </p>
             <p>
-              Since 2015, she has continued to build her creative work across
-              international and community-based projects. Now based in Corpus
-              Christi, she collaborates with local brands, nonprofits, and
-              community initiatives focused on meaningful storytelling and
-              digital engagement.
+              Since founding 3rd Coast Creatives, she has collaborated on
+              projects with businesses, nonprofits, and community organizations
+              helping brands communicate with clarity, purpose, and creativity.
+              Now based in Corpus Christi, Texas, she continues to work with
+              organizations that value meaningful connections and impactful
+              visual storytelling.
             </p>
             <p>
-              Marielle loves volunteering with nonprofit organizations and has a
-              passion for capturing meaningful moments, whether in community
-              events, creative projects, or everyday life. At the core of her
-              work is a strategic, human-centered approach to storytelling,
-              creating content that feels real, relatable, and memorable.
+              Outside of work, Marielle enjoys volunteering with nonprofit
+              organizations and documenting moments that bring people together
+              from community events to local businesses and everyday stories.
+              She believes the most effective content does not just look good
+              but builds trust, inspires action, and creates lasting connections.
             </p>
           </Reveal>
         </div>
@@ -554,7 +556,7 @@ export function HomePage() {
 
           <div className="footer-bottom">
             <nav className="footer-links" aria-label="Footer navigation">
-              <Link href="/portfolio">Work</Link>
+              <Link href="/portfolio">Portfolio</Link>
               <Link href="/#services">Services</Link>
               <Link href="/#about">About</Link>
               <Link href="/#contact">Contact</Link>

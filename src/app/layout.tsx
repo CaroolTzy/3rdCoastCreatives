@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description:
       "Modern content production, social media management, design, photography, video, and digital marketing.",
     type: "website",
-    images: ["/assets/hero-creative-studio.png"],
+    images: ["/assets/backgrounds/portfolio-case-tile-sprite.png"],
   },
   icons: {
     icon: "/favicon.png",

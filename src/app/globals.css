@@ -464,7 +464,7 @@ h3 {
     radial-gradient(circle at 50% 100%, rgba(98, 43, 217, 0.2), transparent 46%),
     radial-gradient(circle at 30% 50%, rgba(184, 126, 242, 0.04), transparent 25%),
     radial-gradient(circle at 68% 48%, rgba(133, 74, 217, 0.038), transparent 27%),
-    url("/assets/proof-band-rail-bg-v2.png") center / cover no-repeat,
+    url("/assets/backgrounds/proof-band-client-logos.png") center / cover no-repeat,
     var(--brand-deep);
 }
 
@@ -1144,7 +1144,7 @@ h3 {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/assets/portfolio-preview-bg-v2.png") center / cover no-repeat;
+  background: url("/assets/backgrounds/portfolio-preview-collage.png") center / cover no-repeat;
   opacity: 0.9;
   pointer-events: none;
   transform: scaleX(-1);
@@ -1365,7 +1365,7 @@ h3 {
 
 .tile-image,
 .case-image {
-  background-image: url("/assets/hero-creative-studio.png");
+  background-image: url("/assets/backgrounds/portfolio-case-tile-sprite.png");
   background-size: 400% 200%;
   background-repeat: no-repeat;
   transition: transform 260ms ease, filter 260ms ease;
@@ -2217,7 +2217,7 @@ h3 {
   inset: 0;
   z-index: -2;
   background:
-    url("/assets/portfolio-preview-bg-v2.png") right 36% / cover no-repeat;
+    url("/assets/backgrounds/portfolio-preview-collage.png") right 36% / cover no-repeat;
   opacity: 1;
   filter: saturate(1.02) contrast(1.08);
   transform: none;
@@ -2311,7 +2311,7 @@ h3 {
   color: var(--white);
   background:
     linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.88)),
-    url("/assets/hero-creative-studio.png") center / cover;
+    url("/assets/backgrounds/portfolio-case-tile-sprite.png") center / cover;
 }
 
 .portfolio-cta h2 {
@@ -2505,7 +2505,7 @@ h3 {
     inset: 0;
     height: auto;
     background:
-      url("/assets/portfolio-preview-bg-v2.png") 68% 38% / cover no-repeat;
+      url("/assets/backgrounds/portfolio-preview-collage.png") 68% 38% / cover no-repeat;
     opacity: 1;
     filter: saturate(1.02) contrast(1.08);
     transform: none;

@@ -25,7 +25,7 @@ export function PhoneShowcase() {
     <section className="phone-showcase" aria-labelledby="phone-showcase-title">
       <Image
         className="phone-showcase-bg"
-        src="/assets/portfolio-preview-bg-v3.png"
+        src="/assets/backgrounds/phone-showcase-collage.png"
         alt=""
         fill
         sizes="100vw"
@@ -116,7 +116,7 @@ export function PhoneShowcase() {
                     </div>
                     <Image
                       className="phone-frame"
-                      src="/assets/phone-showcase/phone-frame.webp"
+                      src="/assets/phone-showcase/iphone-frame.webp"
                       alt=""
                       width={1748}
                       height={3532}
