@@ -68,6 +68,14 @@ export function Header() {
             {item.label}
           </Link>
         ))}
+        <Link
+          className="mobile-menu-cta"
+          href="/#contact"
+          onClick={() => setOpen(false)}
+        >
+          Start a project
+          <ArrowUpRight size={15} aria-hidden="true" />
+        </Link>
       </div>
       <button
         aria-label="Scroll to top"

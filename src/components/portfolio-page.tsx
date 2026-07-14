@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -433,6 +434,7 @@ export function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState(portfolioCategories[0].slug);
   const [activeGroupId, setActiveGroupId] = useState("");
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+  const groupRailRef = useRef<HTMLElement | null>(null);
   const selectedCategory =
     portfolioCategories.find((category) => category.slug === activeCategory) ??
     portfolioCategories[0];
@@ -475,6 +477,31 @@ export function PortfolioPage() {
   useEffect(() => {
     setActiveGroupId(groupedItems[0]?.id ?? "");
   }, [groupedItems]);
+
+  useEffect(() => {
+    const rail = groupRailRef.current;
+
+    if (!rail || !activeGroupId || rail.scrollWidth <= rail.clientWidth) {
+      return;
+    }
+
+    const activeButton = rail.querySelector<HTMLElement>(
+      `[data-group-id="${activeGroupId}"]`,
+    );
+
+    if (!activeButton) {
+      return;
+    }
+
+    rail.scrollTo({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+      left:
+        activeButton.offsetLeft -
+        (rail.clientWidth - activeButton.offsetWidth) / 2,
+    });
+  }, [activeGroupId]);
 
   useEffect(() => {
     if (groupedItems.length === 0) {
@@ -566,37 +593,56 @@ export function PortfolioPage() {
       <section className="section dark-section">
         <div className="container portfolio-tabs-layout">
           <Reveal>
-            <div
-              className="portfolio-tabs"
-              role="tablist"
-              aria-label="Portfolio service categories"
-            >
-              {portfolioCategories.map((category) => {
-                const isActive = category.slug === selectedCategory.slug;
+            <div className="portfolio-category-controls">
+              <label className="portfolio-category-select">
+                <span>Browse work</span>
+                <select
+                  aria-label="Portfolio service category"
+                  onChange={(event) => {
+                    setActiveCategory(event.target.value);
+                    setPlayingVideo(null);
+                  }}
+                  value={activeCategory}
+                >
+                  {portfolioCategories.map((category) => (
+                    <option key={category.slug} value={category.slug}>
+                      {category.title.replace(/\n/g, " ")}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div
+                className="portfolio-tabs"
+                role="tablist"
+                aria-label="Portfolio service categories"
+              >
+                {portfolioCategories.map((category) => {
+                  const isActive = category.slug === selectedCategory.slug;
 
-                return (
-                  <button
-                    aria-controls={`${category.slug}-panel`}
-                    aria-selected={isActive}
-                    className={`portfolio-tab ${isActive ? "is-active" : ""}`}
-                    id={`${category.slug}-tab`}
-                    key={category.slug}
-                    onClick={() => {
-                      setActiveCategory(category.slug);
-                      setPlayingVideo(null);
-                    }}
-                    role="tab"
-                    type="button"
-                  >
-                    {category.title}
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      aria-controls={`${category.slug}-panel`}
+                      aria-selected={isActive}
+                      className={`portfolio-tab ${isActive ? "is-active" : ""}`}
+                      id={`${category.slug}-tab`}
+                      key={category.slug}
+                      onClick={() => {
+                        setActiveCategory(category.slug);
+                        setPlayingVideo(null);
+                      }}
+                      role="tab"
+                      type="button"
+                    >
+                      {category.title}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </Reveal>
 
           <div
-            aria-labelledby={`${selectedCategory.slug}-tab`}
+            aria-label={`${selectedCategory.title.replace(/\n/g, " ")} portfolio`}
             className={`portfolio-tab-panel ${groupedItems.length === 0 ? "is-note-only" : ""}`}
             id={`${selectedCategory.slug}-panel`}
             role="tabpanel"
@@ -609,11 +655,16 @@ export function PortfolioPage() {
 
             {groupedItems.length > 0 ? (
               <div className="portfolio-groups-layout">
-                <nav className="portfolio-group-rail" aria-label={`${selectedCategory.title.replace(/\n/g, " ")} sections`}>
+                <nav
+                  className="portfolio-group-rail"
+                  aria-label={`${selectedCategory.title.replace(/\n/g, " ")} sections`}
+                  ref={groupRailRef}
+                >
                   {groupedItems.map((group) => (
                     <button
                       aria-current={activeGroupId === group.id ? "true" : undefined}
                       className={activeGroupId === group.id ? "is-active" : ""}
+                      data-group-id={group.id}
                       key={group.id}
                       onClick={() => scrollToGroup(group.id)}
                       type="button"
@@ -768,6 +819,17 @@ export function PortfolioPage() {
       </section>
 
       <section className="portfolio-cta">
+        <div className="portfolio-cta-bts" aria-hidden="true">
+          {["04", "03", "07", "05", "10", "08"].map((image) => (
+            <Image
+              alt=""
+              fill
+              key={image}
+              sizes="(max-width: 760px) 50vw, 34vw"
+              src={`/assets/portfolio/behind-the-scenes/bts-${image}.jpg`}
+            />
+          ))}
+        </div>
         <div className="container">
           <Reveal>
             <h2>Have the work. Need the site to show it better?</h2>

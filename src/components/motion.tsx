@@ -93,8 +93,14 @@ export function PinnedProcess({
   });
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 680px)");
-    const syncProcessMode = () => setIsMobileProcess(mediaQuery.matches);
+    const mediaQuery = window.matchMedia("(max-width: 980px)");
+    const syncProcessMode = () => {
+      setIsMobileProcess(mediaQuery.matches);
+
+      if (mediaQuery.matches) {
+        setActiveIndex(0);
+      }
+    };
 
     syncProcessMode();
     mediaQuery.addEventListener("change", syncProcessMode);
@@ -103,7 +109,10 @@ export function PinnedProcess({
   }, []);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (isMobileProcess) {
+    if (
+      isMobileProcess ||
+      window.matchMedia("(max-width: 980px)").matches
+    ) {
       return;
     }
 
