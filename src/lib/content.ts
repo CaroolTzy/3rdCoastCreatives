@@ -702,12 +702,6 @@ const eventCoverageItems = [
     imageSrc: "/assets/portfolio/event-coverage/marine-corps-ball-10.jpg",
   },
   {
-    title: "Marine Corps Ball 11",
-    category: "Event coverage",
-    metric: "Formal event documentation",
-    imageSrc: "/assets/portfolio/event-coverage/marine-corps-ball-11.jpg",
-  },
-  {
     title: "Associated Builders 1",
     category: "Event coverage",
     metric: "Industry event coverage",
@@ -730,12 +724,6 @@ const eventCoverageItems = [
     category: "Event coverage",
     metric: "Industry event coverage",
     imageSrc: "/assets/portfolio/event-coverage/associated-builders-04.jpg",
-  },
-  {
-    title: "Associated Builders 5",
-    category: "Event coverage",
-    metric: "Industry event coverage",
-    imageSrc: "/assets/portfolio/event-coverage/associated-builders-05.jpg",
   },
   {
     title: "Coastal Bend Fil-Am Association 1",
@@ -834,12 +822,6 @@ const eventCoverageItems = [
     imageSrc: "/assets/portfolio/event-coverage/education-is-our-freedom-08.jpg",
   },
   {
-    title: "Education is Our Freedom 9",
-    category: "Event coverage",
-    metric: "Scholarship program moments",
-    imageSrc: "/assets/portfolio/event-coverage/education-is-our-freedom-09.jpg",
-  },
-  {
     title: "Habitat x Buc Days Build 1",
     category: "Event coverage",
     metric: "Nonprofit event coverage",
@@ -936,12 +918,6 @@ const eventCoverageItems = [
     imageSrc: "/assets/portfolio/event-coverage/habitat-x-buc-days-build-16.jpg",
   },
   {
-    title: "Habitat x Buc Days Build 17",
-    category: "Event coverage",
-    metric: "Nonprofit event coverage",
-    imageSrc: "/assets/portfolio/event-coverage/habitat-x-buc-days-build-17.jpg",
-  },
-  {
     title: "Memory Machine 1",
     category: "Event coverage",
     metric: "Live experience coverage",
@@ -964,12 +940,6 @@ const eventCoverageItems = [
     category: "Event coverage",
     metric: "Live experience coverage",
     imageSrc: "/assets/portfolio/event-coverage/memory-machine-04.jpg",
-  },
-  {
-    title: "Memory Machine 5",
-    category: "Event coverage",
-    metric: "Live experience coverage",
-    imageSrc: "/assets/portfolio/event-coverage/memory-machine-05.jpg",
   },
   {
     title: "Winsupply Corpus Christi 1",
@@ -1066,12 +1036,6 @@ const eventCoverageItems = [
     category: "Event coverage",
     metric: "Corporate event photography",
     imageSrc: "/assets/portfolio/event-coverage/winsupply-corpus-christi-16.jpg",
-  },
-  {
-    title: "Winsupply Corpus Christi 17",
-    category: "Event coverage",
-    metric: "Corporate event photography",
-    imageSrc: "/assets/portfolio/event-coverage/winsupply-corpus-christi-17.jpg",
   },
 ];
 
@@ -2022,12 +1986,6 @@ const photographyItems = [
     imageSrc: "/assets/portfolio/photography/hotel-lydia-32.jpg",
   },
   {
-    title: "Hotel Lydia 33",
-    category: "Commercial photography",
-    metric: "Hospitality photography",
-    imageSrc: "/assets/portfolio/photography/hotel-lydia-33.jpg",
-  },
-  {
     title: "Headshots & Portraits 1",
     category: "Headshot photography",
     metric: "Portrait session",
@@ -2182,12 +2140,6 @@ const photographyItems = [
     category: "Headshot photography",
     metric: "Portrait session",
     imageSrc: "/assets/portfolio/photography/headshots-and-portraits-26.jpg",
-  },
-  {
-    title: "Headshots & Portraits 27",
-    category: "Headshot photography",
-    metric: "Portrait session",
-    imageSrc: "/assets/portfolio/photography/headshots-and-portraits-27.jpg",
   },
   {
     title: "Product Shoots 1",

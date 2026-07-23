@@ -52,6 +52,10 @@ export function Header() {
           Start a project
           <ArrowUpRight size={15} aria-hidden="true" />
         </Link>
+        <Link className="mobile-portfolio-link" href="/portfolio">
+          Portfolio
+          <ArrowUpRight size={13} aria-hidden="true" />
+        </Link>
         <button
           className="mobile-menu-button"
           type="button"
