@@ -131,7 +131,7 @@ const createDriveVideoItems = (
   orientation: "portrait" | "landscape" = "portrait",
 ) => createDriveItems(title, category, metric, ids, "video", orientation);
 
-const contentCreationItems = [
+const contentCreationItemsUnordered = [
   {
     title: "The Bar & Grill 1",
     category: "Content creation",
@@ -639,6 +639,26 @@ const contentCreationItems = [
     account: "Memory Machine",
   },
 ];
+
+const contentCreationAccountOrder = [
+  "Hotel Lydia",
+  "Beacon 57",
+  "The Bar & Grill",
+  "Crawfish for a Cause",
+  "Harbor Half Marathon",
+  "Habitat for Humanity",
+  "Memory Machine",
+];
+
+const contentCreationAccountRank = new Map(
+  contentCreationAccountOrder.map((account, index) => [account, index]),
+);
+
+const contentCreationItems = [...contentCreationItemsUnordered].sort(
+  (left, right) =>
+    (contentCreationAccountRank.get(left.account) ?? Number.MAX_SAFE_INTEGER) -
+    (contentCreationAccountRank.get(right.account) ?? Number.MAX_SAFE_INTEGER),
+);
 
 const eventCoverageItems = [
   {

@@ -11,7 +11,22 @@ export const metadata: Metadata = {
     description:
       "Modern content production, social media management, design, photography, video, and digital marketing.",
     type: "website",
-    images: ["/assets/backgrounds/portfolio-case-tile-sprite.png"],
+    images: [
+      {
+        url: "/assets/brand/logo-brand-card.jpg",
+        width: 6250,
+        height: 6250,
+        alt: "3rd Coast Creatives logo",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "3rd Coast Creatives | Digital Content & Social Media Agency",
+    description:
+      "Modern content production, social media management, design, photography, video, and digital marketing.",
+    images: ["/assets/brand/logo-brand-card.jpg"],
   },
   icons: {
     icon: "/favicon.png",
